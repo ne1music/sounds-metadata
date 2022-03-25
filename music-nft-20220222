@@ -1,0 +1,158 @@
+This schema is intentionally minimal in hopes of being forwards compatible.
+
+### Schema
+
+```json
+{
+	"version": string!, // schema version
+  "title": string!,
+  "artist": string!,
+  "description": string,
+  "duration": number!, // seconds
+  "mimeType": string!,
+  "trackNumber": int, // starts at 1
+  "project": { // nullable
+      "title": string!,
+      "artwork": { // project artwork may be different from single artwork
+		      "uri": string!, // ipfs://<CID>
+		      "mimeType": string!,
+		      "nft": string, // caip19 ([ref](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md)) 
+		  },
+			"description": string,
+			"type": string, // eg: *ep*, *album*, *compilation*
+			"originalReleaseDate": DateTime ISO8601, // (or sumn)
+			"recordLabel": string, // what is this used for? unstable
+			"publisher": string, // what is this used for? unstable
+			"upc": string
+  },
+  "artwork": {
+      "uri": string!,
+      "mimeType": string!,
+      "nft": string, // caip19 ([ref](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md)) 
+  },
+  "visualizer": { // nullable
+	    "uri": string!,
+	    "mimeType": string!,
+	    "nft": string, // caip19 ([ref](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md)) 
+  },
+	"genre": string, // limit: 50 chars
+	"tags": [string],
+	"lyrics": { // nullable
+	    "text": string!,
+	    "nft": string, // caip19 ([ref](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md))
+  }
+	"bpm": number,
+	"key": string, // open key notation (e.g. 6a)
+	"license": string, // TODO - define options
+	"isrc": string,
+	"locationCreated": string, // open for interpretation
+	"originalReleaseDate": DateTime ISO8601,
+	"recordLabel": string,
+	"publisher": string,
+	"credits": [ // nullable
+			{
+				"name": string!, // e.g. Daddy Kev
+				"collaboratorType": string!, // e.g. composer, songwriter, performer, producer, mixingEngineer, masteringEngineer
+			}
+	],
+	"losslessAudio": string!, // URI
+	// OpenSea standards 👇
+	"image": string!,
+	"name": string!, // <artist> — <title>
+	"external_url": string!,
+	"animation_url": string!, // lossy audio — test w/ rainbow
+	"attributes": {
+		"artist" : string!, // name collisions
+		"project": string, // name collisions
+		"bpm" : number,
+		"key": string,
+		"genre": string,
+		"recordLabel": string,
+		"license": string
+	}
+}
+```
+
+### Example (WIP)
+
+```json
+{
+	"version": "mnft-20220202",
+  "title": "Our Taproot",
+  "artist": "Omari Jazz",
+  "description": null,
+  "duration": 65.881,
+  "mimeType": "audio/aiff",
+  "trackNumber": 9,
+  "project": {
+      "title": "Dream Child",
+      "artwork": {
+		      "uri": "ipfs://bafybeibmxbxuw5n5hwmrhtyp2qlzgiu56qpzzwi3pbflbnbb4ykhhgy7gu",
+		      "mimeType": "image/jpeg",
+		      "nft": "eip155:1/erc721:0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769"
+		  },
+			"notes": null
+			"numTracks": 10,
+			"type": "Album",
+			"originalReleaseDate": "2020-06-05",
+			"recordLabel": null,
+			"publisher": null
+  },
+  "artwork": {
+      "uri": "ipfs://bafybeibmxbxuw5n5hwmrhtyp2qlzgiu56qpzzwi3pbflbnbb4ykhhgy7gu",
+      "mimeType": "image/jpeg",
+      "nft": "eip155:1/erc721:0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769"
+  },
+  "visualizer": {
+	   "uri": "ipfs://bafybeibmxbxuw5n5hwmrhtyp2qlzgiu56qpzzwi3pbflbnbb4ykhhgy7gu",
+	    "mimeType": "video/mp4",
+	    "nft": null
+  },
+	"genre": "Future beats",
+	"tags": ["chill", "dreamy"],
+	"lyrics": null,
+	"bpm": "93",
+	"key": "6a", // open key notation
+	"license": "CC0",
+	"isrc": "QZHN62027539",
+	"locationCreated": "Portland, OR",
+	"originalReleaseDate": "2020-06-05",
+	"recordLabel": null,
+	"publisher": null,
+	"credits": [
+			{
+				"name": "Omari Jazz",
+				"collaboratorType": "producer"
+			},
+			{
+				"name": "Omari Jazz",
+				"collaboratorType": "songwriter"
+			},
+			{
+				"name": "Harris Cole",
+				"collaboratorType": "masteringEngineer"
+			},
+			{
+				"name": "Doplhin Midwives",
+				"collaboratorType": "performer"
+			},
+			{
+				"name": "B Timon",
+				"collaboratorType": "performer"
+			}
+	],
+	"image": "ipfs://bafybeibmxbxuw5n5hwmrhtyp2qlzgiu56qpzzwi3pbflbnbb4ykhhgy7gu",
+	"name": "Omari Jazz - Our Taproot",
+	"external_url": "https://catalog.works/0x7C2668BD0D3c050703CEcC956C11Bd520c26f7d4/our-taproot",
+	"animation_url": "ipfs://bafybeibmxbxuw5n5hwmrhtyp2qlzgiu56qpzzwi3pbflbnbb4ykhhgy7gu",
+	"attributes": {
+		"artist" : "Omari Jazz",
+		"project": "Dream Child",
+		"bpm" : 93,
+		"key": "6a",
+		"genre": "Future beats",
+		"recordLabel": null,
+		"license": "CC0"
+	}
+}
+```
